@@ -1,0 +1,13 @@
+version: '2'
+services:
+  postgres:
+    image: 'postgres:latest'
+    restart: always
+    volumes:
+      - './postgres_data:\D:\programas\PostgreSQL\14\data'
+    environment:
+      - POSTGRES_USER=web
+      - POSTGRES_DB=webs
+      - POSTGRES_PASSWORD=12345
+    ports:
+      - '5432:5432'

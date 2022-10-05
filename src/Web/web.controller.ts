@@ -10,8 +10,8 @@ export class WebController {
   getWebs(): Web[] {
     return this.webService.findAll();
   }
-  @Get(':id')  //GetOne  (si le especifico de tipo Web no le puedo devolver un string en caso de error)
-  getWeb(@Param() params) {
+  @Get(':id')  //GetOne  
+  getWeb(@Param() params): Web[] {
     return this.webService.findOne(params.id);
   }
   @Post('')  // crea la web recibida por el body y devuelve la web creada.
