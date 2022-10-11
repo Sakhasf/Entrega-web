@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
 import { WebService } from './web.service';
 import { WebController } from './web.controller';
+import { Web } from './web.entity';
+import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({
-  imports: [],
+  imports: [TypeOrmModule.forFeature([Web])],
   controllers: [WebController],
   providers: [WebService],
   exports: [WebService],   

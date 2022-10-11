@@ -1,5 +1,5 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
-import { Web } from './web.interface';
+import { Web } from './web.entity';
 import { WebService } from './web.service';
 
 @Controller('webs')
@@ -7,9 +7,9 @@ export class WebController {
   constructor(private readonly webService: WebService) {}
 
   @Get()  //GetAll 
-  getWebs(): Web[] {
+  getWebs(): Promise<Web[]> {
     return this.webService.findAll();
-  }
+  }/*
   @Get(':id')  //GetOne  
   getWeb(@Param() params): Web[] {
     return this.webService.findOne(params.id);
@@ -27,5 +27,5 @@ export class WebController {
   eraseWeb(@Param() params): string {
     return this.webService.erase(params.id);
   }
-
+*/
 }

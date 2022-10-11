@@ -1,30 +1,20 @@
 import { HttpException, HttpStatus, Injectable, Query } from '@nestjs/common';
-import { Web } from './web.interface';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Web } from './web.entity';
 
 @Injectable()
 export class WebService {
-  private webs: Web[] = [{
-    id: 1,
-    consumoCPU: 200,
-    consumoRAM: 3000,
-    consumoGPU: 1000,
-    consumoHDD: 2500,
-    version: 2.0
-  },
-  {
-    id: 2,
-    consumoCPU: 300,
-    consumoRAM: 4500,
-    consumoGPU: 2000,
-    consumoHDD: 5000,
-    version: 1.0
-  } ];
+  constructor(
+    @InjectRepository(Web)
+    private websRepo: Repository<Web>,
+    ){}
 
-  findAll(): Web[] {
-    console.log(this.webs);
-    return this.webs;
+
+  findAll(): Promise<Web[]> {
+    return this.websRepo.find();
   }
-  create(web:Web){
+  /*create(web:Web){
     this.webs.push(web);
     return web;
   }
@@ -56,5 +46,5 @@ export class WebService {
     }
     this.webs.splice(pos,1);  // splice elimina a partir de la posición inicial, x posiciones en un arreglo
     return 'La web fue borrada correctamente';
-  }
+  }*/
   } 

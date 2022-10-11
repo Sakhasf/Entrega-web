@@ -4,10 +4,13 @@ services:
     image: 'postgres:latest'
     restart: always
     volumes:
-      - './postgres_data:\D:\programas\PostgreSQL\14\data'
+      - 'postgres_data:/var/lib/postgresql/data'
     environment:
-      - POSTGRES_USER=web
-      - POSTGRES_DB=webs
-      - POSTGRES_PASSWORD=12345
+      - POSTGRES_USER=prueba
+      - POSTGRES_DB=dataprueba
+      - POSTGRES_PASSWORD=secure
     ports:
       - '5432:5432'
+volumes:
+  postgres_data:
+    external: true
