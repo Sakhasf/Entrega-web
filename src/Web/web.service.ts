@@ -1,6 +1,10 @@
 import { HttpException, HttpStatus, Injectable, Query } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { stringify } from 'querystring';
+import { AsyncAction } from 'rxjs/internal/scheduler/AsyncAction';
+import { PrimaryColumnCannotBeNullableError, Repository } from 'typeorm';
+import { WebDTO } from './dtos/create-web-dto';
+import { ModifyWebDto } from './dtos/update-web-dto';
 import { Web } from './web.entity';
 
 @Injectable()
@@ -14,37 +18,35 @@ export class WebService {
   findAll(): Promise<Web[]> {
     return this.websRepo.find();
   }
-  /*create(web:Web){
-    this.webs.push(web);
-    return web;
+
+  create(web:WebDTO): Promise<Web>{
+    return this.websRepo.save(web);
   }
 
-  findOne(id: number) {
-    let theOne = this.webs.filter(web => web.id == id); //filter crea una copia del elemento que coincide con las condiciones especificadas
-    if (theOne.length != 0){  // Si el arreglo copiado tiene longitud > 0 existe la id
+  async findOne(id: number) {  // hay que ser uso de async y await para que se resuelva la promesa de la web en la comparacion
+    let theOne = await this.websRepo.findOneBy({id}); //FindOneBy encuentra la primera entidad que coincida con el parametro, si no encuentra devuelve null
+    if (theOne != null){  // Si no es null, devuelve la web
       return theOne;
     } else{  // caso contrario no existe la id especificada
-      throw new HttpException('Not found', HttpStatus.NOT_FOUND) //return 'no existe web con el id especificado';
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     }
   }
   
-  modify(id: number, webModificada : Web) : Web {
-    let web = this.webs.find(web => web.id == id);
-    web.consumoCPU = webModificada.consumoCPU;
-    web.consumoGPU = webModificada.consumoGPU;
-    web.consumoHDD = webModificada.consumoHDD;
-    web.consumoRAM = webModificada.consumoRAM;
-    web.version = webModificada.version;
-    return web;
-  }
-  
-  erase(id: number) : string {
-    let webParaRemover = this.webs.find(web => web.id == id);
-    let pos = this.webs.indexOf(webParaRemover);  //indexOf te devuelve el indice de la primera ocurrencia
-    if (pos === -1){                             // del valor en el arreglo, de no encontrarla devuelve -1
-      throw new HttpException('Not found', HttpStatus.NOT_FOUND) //return 'No existe web con el id especificado';
+  async modify(id: number, webModificada : ModifyWebDto) : Promise<Web> {
+    if(typeof(await this.findOne(id)) === 'string' ){ // Controlo que exista la web a modificar (update no controla que exista la entidad)  
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND); //si no existe tiro un 404
+    } else {
+    this.websRepo.update(id, webModificada);  //updatea en el repositorio la web con la id del parametro con los datos que vienen en webModificada
+    return this.websRepo.findOneBy({id}); // devuelve la web modificada buscandola en el repositorio (problemas guardando en una variable el resultado del update en el repo)
     }
-    this.webs.splice(pos,1);  // splice elimina a partir de la posición inicial, x posiciones en un arreglo
-    return 'La web fue borrada correctamente';
-  }*/
+  }
+
+  async erase(id: number) : Promise<Web> {
+    let thePoorOne = this.findOne(id);
+    if (typeof(thePoorOne) === 'string' ){
+      throw  new HttpException('Not found', HttpStatus.NOT_FOUND);
+    } else 
+    this.websRepo.delete(id);
+    return thePoorOne;
+  }
   } 
