@@ -1,26 +1,49 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Query } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateServidorDto } from './dto/create-servidor.dto';
 import { UpdateServidorDto } from './dto/update-servidor.dto';
+import { Servidor } from './entities/servidor.entity';
 
 @Injectable()
 export class ServidoresService {
-  create(createServidorDto: CreateServidorDto) {
-    return 'This action adds a new servidore';
+  constructor(
+    @InjectRepository(Servidor)
+    private serversRepo: Repository<Servidor>,
+    ){}
+
+  create(server: CreateServidorDto): Promise<Servidor> {
+    return this.serversRepo.save(server);
   }
 
-  findAll() {
-    return `This action returns all servidores`;
+  findAll(): Promise<Servidor[]> {
+    return this.serversRepo.find();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} servidore`;
+  async findOne(id: number): Promise<Servidor> {
+    let theOne = await this.serversRepo.findOneBy({id});
+    if (typeof(theOne)!= null){
+      return theOne;
+    } else{
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    }
   }
 
-  update(id: number, updateServidorDto: UpdateServidorDto) {
-    return `This action updates a #${id} servidore`;
+  async update(id: number, updatedServer: UpdateServidorDto): Promise<Servidor> {
+    if (typeof(await this.findOne(id)) === 'string'){
+      throw new HttpException('Not found', HttpStatus.NOT_FOUND);
+    } else{
+    this.serversRepo.update(id,updatedServer);
+    return this.serversRepo.findOneBy({id});
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} servidore`;
+  remove(id: number) : Promise<Servidor> {
+    let thePoorOne = this.findOne(id);
+    if (typeof(thePoorOne) === 'string' ){
+      throw  new HttpException('Not found', HttpStatus.NOT_FOUND);
+    } else 
+    this.serversRepo.delete(id);
+    return thePoorOne;
   }
 }

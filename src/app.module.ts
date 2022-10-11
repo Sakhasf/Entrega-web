@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { WebModule } from './Web/web.module';
 import { ServidoresModule } from './servidores/servidores.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { Web } from './Web/web.entity';
+import { Web } from './Web/entities/web.entity';
 import { Servidor } from './servidores/entities/servidor.entity';
 
 @Module({

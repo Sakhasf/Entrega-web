@@ -1,7 +1,7 @@
 import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
 import { WebDTO } from './dtos/create-web-dto';
 import { ModifyWebDto } from './dtos/update-web-dto';
-import { Web } from './web.entity';
+import { Web } from './entities/web.entity';
 import { WebService } from './web.service';
 
 @Controller('webs')

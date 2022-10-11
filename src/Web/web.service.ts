@@ -1,11 +1,9 @@
 import { HttpException, HttpStatus, Injectable, Query } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { stringify } from 'querystring';
-import { AsyncAction } from 'rxjs/internal/scheduler/AsyncAction';
-import { PrimaryColumnCannotBeNullableError, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { WebDTO } from './dtos/create-web-dto';
 import { ModifyWebDto } from './dtos/update-web-dto';
-import { Web } from './web.entity';
+import { Web } from './entities/web.entity';
 
 @Injectable()
 export class WebService {
@@ -41,7 +39,7 @@ export class WebService {
     }
   }
 
-  async erase(id: number) : Promise<Web> {
+  erase(id: number) : Promise<Web> {
     let thePoorOne = this.findOne(id);
     if (typeof(thePoorOne) === 'string' ){
       throw  new HttpException('Not found', HttpStatus.NOT_FOUND);
