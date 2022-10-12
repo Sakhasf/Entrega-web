@@ -18,19 +18,19 @@ export class WebController {
     return this.webService.findOne(params.id);
   } 
 
-  @Post('')  // crea la web recibida por el body y devuelve la web creada.
-  createWeb(@Body() web : WebDTO | Web) : Promise<Web> {
+  @Post('')  // ataja el Post request y llama a un metodo que levanta el servicio create.
+  createWeb(@Body() web : WebDTO | Web) : Promise<Web> { // Puede recibir WebDTO o la entidad para que en caso de que se cargue a que servidor pertenece, tenga acceso a la relacion
     let nuevaWeb : Promise<Web> = this.webService.create(web);
     return nuevaWeb;
   }
 
-  @Patch(':id')  // modifica una web con los datos recibidos en el body y retorna la misma después de su modifiación
-  modifyWeb(@Param() params, @Body() webMod: ModifyWebDto | Web) {
+  @Patch(':id')  // Recibe el Patch request 
+  modifyWeb(@Param() params, @Body() webMod: ModifyWebDto | Web) { // admite WebDTO o entidad WEB por si se modifica la relacion
     return this.webService.modify(params.id, webMod);
   }
  
-  @Delete(':id') // devuelve un string indicando si fue borrada correctamente o si no existía el id a borrar
-  eraseWeb(@Param() params): Promise<Web> {
+  @Delete(':id') // recibe el Delete request
+  eraseWeb(@Param() params): Promise<Web> { 
     return this.webService.erase(params.id);
   }
 }
