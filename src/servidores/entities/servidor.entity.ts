@@ -1,6 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Web } from "src/Web/entities/web.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
-@Entity()
+@Entity('server')
 export class Servidor {
     @PrimaryGeneratedColumn()
     id: number;
@@ -10,4 +11,6 @@ export class Servidor {
     ip: string;
     @Column()
     estado: string;
+    @OneToMany(() => Web, (web) => web.servidor)
+    webs : Web[];
 }

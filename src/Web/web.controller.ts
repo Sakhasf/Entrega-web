@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Post, Put } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, Put } from '@nestjs/common';
 import { WebDTO } from './dtos/create-web-dto';
 import { ModifyWebDto } from './dtos/update-web-dto';
 import { Web } from './entities/web.entity';
@@ -24,8 +24,8 @@ export class WebController {
     return nuevaWeb;
   }
 
-  @Put(':id')  // modifica una web con los datos recibidos en el body y retorna la misma después de su modifiación
-  modifyWeb(@Param() params, @Body() webMod: ModifyWebDto) : Promise<Web> {
+  @Patch(':id')  // modifica una web con los datos recibidos en el body y retorna la misma después de su modifiación
+  modifyWeb(@Param() params, @Body() webMod: ModifyWebDto) {
     return this.webService.modify(params.id, webMod);
   }
  

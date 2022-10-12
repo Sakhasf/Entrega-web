@@ -23,7 +23,7 @@ export class ServidoresController {
     return this.servidoresService.findOne(+id);
   }
 
-  @Patch(':id') // cuando lo hice a mano en web use put, el generado por nest uso patch
+  @Patch(':id') 
   update(@Param('id') id: string, @Body() updateServidorDto: UpdateServidorDto):Promise<Servidor> {
     return this.servidoresService.update(+id, updateServidorDto);
   }

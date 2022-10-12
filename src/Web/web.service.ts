@@ -1,5 +1,6 @@
-import { HttpException, HttpStatus, Injectable, Query } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable, Param, Query } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Servidor } from 'src/servidores/entities/servidor.entity';
 import { Repository } from 'typeorm';
 import { WebDTO } from './dtos/create-web-dto';
 import { ModifyWebDto } from './dtos/update-web-dto';
@@ -14,10 +15,14 @@ export class WebService {
 
 
   findAll(): Promise<Web[]> {
-    return this.websRepo.find();
+    return this.websRepo.find({
+      relations: {
+        servidor:true,
+      }
+    });
   }
 
-  create(web:WebDTO): Promise<Web>{
+  async create(web:WebDTO): Promise<Web>{
     return this.websRepo.save(web);
   }
 
@@ -33,7 +38,7 @@ export class WebService {
   async modify(id: number, webModificada : ModifyWebDto) : Promise<Web> {
     if(typeof(await this.findOne(id)) === 'string' ){ // Controlo que exista la web a modificar (update no controla que exista la entidad)  
       throw new HttpException('Not found', HttpStatus.NOT_FOUND); //si no existe tiro un 404
-    } else {
+    } else {  // para controlar que exista la id del sv a la que pertenece, necesito "liberarme" del tipo parcial de WebDTO
     this.websRepo.update(id, webModificada);  //updatea en el repositorio la web con la id del parametro con los datos que vienen en webModificada
     return this.websRepo.findOneBy({id}); // devuelve la web modificada buscandola en el repositorio (problemas guardando en una variable el resultado del update en el repo)
     }

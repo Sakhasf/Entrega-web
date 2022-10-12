@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Servidor } from "src/servidores/entities/servidor.entity";
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from "typeorm";
 
-@Entity()
+@Entity('web')
 export class Web {
     @PrimaryGeneratedColumn()
     id: number;
@@ -14,4 +15,7 @@ export class Web {
     consumoHDD: number;
     @Column()
     version: number;
+    @ManyToOne(() => Servidor,(servidor) => servidor.webs)
+    @JoinColumn()
+    servidor : Servidor;
 }

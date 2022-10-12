@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable, Query } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Web } from 'src/Web/entities/web.entity';
 import { Repository } from 'typeorm';
 import { CreateServidorDto } from './dto/create-servidor.dto';
 import { UpdateServidorDto } from './dto/update-servidor.dto';
@@ -17,7 +18,10 @@ export class ServidoresService {
   }
 
   findAll(): Promise<Servidor[]> {
-    return this.serversRepo.find();
+    return this.serversRepo.find({
+      relations: {
+        webs:true,
+    }});
   }
 
   async findOne(id: number): Promise<Servidor> {
