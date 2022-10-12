@@ -15,7 +15,9 @@ export class Web {
     consumoHDD: number;
     @Column()
     version: number;
-    @ManyToOne(() => Servidor,(servidor) => servidor.webs)
+    @ManyToOne(() => Servidor,(servidor) => servidor.webs,{
+        onDelete: "CASCADE"  // le especifico que borre las webs en cascada la DB
+    })
     @JoinColumn()
     servidor : Servidor;
 }

@@ -26,7 +26,7 @@ export class ServidoresService {
 
   async findOne(id: number): Promise<Servidor> {
     let theOne = await this.serversRepo.findOneBy({id});
-    if (typeof(theOne)!= null){
+    if (theOne!= null){
       return theOne;
     } else{
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);

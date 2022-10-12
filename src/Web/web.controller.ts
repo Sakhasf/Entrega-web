@@ -19,13 +19,13 @@ export class WebController {
   } 
 
   @Post('')  // crea la web recibida por el body y devuelve la web creada.
-  createWeb(@Body() web : WebDTO) : Promise<Web> {
+  createWeb(@Body() web : WebDTO | Web) : Promise<Web> {
     let nuevaWeb : Promise<Web> = this.webService.create(web);
     return nuevaWeb;
   }
 
   @Patch(':id')  // modifica una web con los datos recibidos en el body y retorna la misma después de su modifiación
-  modifyWeb(@Param() params, @Body() webMod: ModifyWebDto) {
+  modifyWeb(@Param() params, @Body() webMod: ModifyWebDto | Web) {
     return this.webService.modify(params.id, webMod);
   }
  
