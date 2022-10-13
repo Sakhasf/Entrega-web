@@ -16,8 +16,8 @@ export class Web {
     @Column()
     version: number;
     @ManyToOne(() => Servidor,(servidor) => servidor.webs,{
-        onDelete: "CASCADE"  // le especifico que cuando se ejecute un delete, borre las webs en cascada la DB
-    })                      // de usar cascade:true se encargaria typeorm
+        onDelete: "CASCADE",  // le especifico que cuando se ejecute un delete, borre las webs en cascada la DB         
+    })                      // de usar cascade:true se encargaria typeorm ?
     @JoinColumn()
     servidor : Servidor;
 }

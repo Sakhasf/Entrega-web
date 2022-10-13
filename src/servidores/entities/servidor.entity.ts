@@ -11,6 +11,8 @@ export class Servidor {
     ip: string;
     @Column()
     estado: string;
-    @OneToMany(() => Web, (web) => web.servidor)
+    @OneToMany(() => Web, (web) => web.servidor,{
+        eager:true  // eager para que cargue las relaciones automaticamente cuando cargo la entidad
+    })             // mas que nada pensando en el findOne del servidor
     webs : Web[];
 }

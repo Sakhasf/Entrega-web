@@ -37,8 +37,12 @@ export class ServidoresService {
     if (typeof(await this.findOne(id)) === 'string'){
       throw new HttpException('Not found', HttpStatus.NOT_FOUND);
     } else{
-    this.serversRepo.update(id,updatedServer);
-    return this.serversRepo.findOneBy({id});
+      try{
+        await this.serversRepo.update(id,updatedServer);
+        return this.serversRepo.findOneBy({id});
+      } catch{
+        throw new HttpException('Se ingresaron datos erroneos', HttpStatus.BAD_REQUEST);
+      }
     }
   }
 
