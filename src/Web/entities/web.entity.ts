@@ -6,6 +6,8 @@ export class Web {
     @PrimaryGeneratedColumn()
     id: number;
     @Column()
+    nombre: string;
+    @Column()
     consumoCPU: number;
     @Column()
     consumoRAM: number;
