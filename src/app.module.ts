@@ -10,10 +10,12 @@ import { Servidor } from './servidores/entities/servidor.entity';
 @Module({
   imports: [WebModule, ServidoresModule, TypeOrmModule.forRoot({
     type: 'postgres',
-    host: 'localhost',
+    host: 'dpg-cd8rsdun6mpnkgit336g-a',
+//  host: 'localhost',
     port: 5432,
     username: 'prueba',
-    password: 'secure',
+    password: 'djtvpejR2fTfLzWWKUkHa6TragUzeGMB',
+//  password: 'secure',
     database: 'dataprueba',
     entities: [Web, Servidor],
     synchronize: true,
