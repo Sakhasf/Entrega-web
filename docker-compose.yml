@@ -1,13 +1,30 @@
-version: '2'
+version: '3'
 services:
+  nest:
+    image: 'node:18-bookworm'
+    volumes:
+      - '.:/opt'
+    ports:
+      - '3000:3000'
+    working_dir: '/opt'
+    command: ['bash', '-e', './bin/start.sh']
   postgres:
     image: 'postgres:latest'
     restart: always
     volumes:
-      - './postgres_data:/var/lib/postgresql/data'
+    # - './postgres_data:/var/lib/postgresql/data'
+      - psqldata:/var/lib/postgresql/data
     environment:
       - POSTGRES_USER=prueba
       - POSTGRES_DB=dataprueba
       - POSTGRES_PASSWORD=djtvpejR2fTfLzWWKUkHa6TragUzeGMB
     ports:
       - '5432:5432'
+
+  adminer:
+    image: 'adminer:latest'
+    ports:
+      - '8080:8080'
+
+volumes:
+  psqldata:

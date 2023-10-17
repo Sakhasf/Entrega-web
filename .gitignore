@@ -2,6 +2,8 @@
 /dist
 /node_modules
 
+#database files
+/postgres_data
 # Logs
 logs
 *.log
