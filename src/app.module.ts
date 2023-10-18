@@ -6,17 +6,23 @@ import { ServidoresModule } from './servidores/servidores.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Web } from './Web/entities/web.entity';
 import { Servidor } from './servidores/entities/servidor.entity';
+import {} from 'dotenv/config'
+require('dotenv').config();
 
 @Module({
   imports: [WebModule, ServidoresModule, TypeOrmModule.forRoot({
     type: 'postgres',
-//    host: 'dpg-cd8rsdun6mpnkgit336g-a',
 //    host: 'localhost',
-      host: 'postgres',
-    port: 5432,
-    username: 'prueba',
-    password: 'djtvpejR2fTfLzWWKUkHa6TragUzeGMB',
-    database: 'dataprueba',
+    host: process.env.DB_HOST,
+    port: Number(process.env.DB_PORT),
+    username: process.env.DB_USERNAME,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
+    // host: 'postgres',
+    // port: 5432,
+    // username: 'prueba',
+    // password: 'djtvpejR2fTfLzWWKUkHa6TragUzeGMB',
+    // database: 'dataprueba',
     entities: [Web, Servidor],
     synchronize: true,
   }),

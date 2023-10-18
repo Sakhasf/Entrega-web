@@ -1,13 +1,28 @@
 version: '3'
 services:
+  # nest:
+  #   image: 'node:18-bookworm'
+  #   volumes:
+  #     - '.:/opt'
+  #   ports:
+  #     - '3000:3000'
+  #   working_dir: '/opt'
+  #   command: ['bash', '-e', './bin/start.sh']
   nest:
-    image: 'node:18-bookworm'
-    volumes:
-      - '.:/opt'
+    image: 'app-backend:latest'
     ports:
       - '3000:3000'
-    working_dir: '/opt'
-    command: ['bash', '-e', './bin/start.sh']
+    environment:
+      - DB_HOST=postgres
+      - DB_NAME=dataprueba
+      - DB_PORT=5432
+      - DB_USERNAME=prueba
+      - DB_PASSWORD=djtvpejR2fTfLzWWKUkHa6TragUzeGMB
+
+  angular:
+    image: 'app-frontend:latest'
+    ports:
+      - '4200:4200'
   postgres:
     image: 'postgres:latest'
     restart: always
