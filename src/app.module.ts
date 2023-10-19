@@ -13,6 +13,7 @@ require('dotenv').config();
   imports: [WebModule, ServidoresModule, TypeOrmModule.forRoot({
     type: 'postgres',
 //    host: 'localhost',
+//  host: 'dpg-cd8rsdun6mpnkgit336g-a' render api
     host: process.env.DB_HOST,
     port: Number(process.env.DB_PORT),
     username: process.env.DB_USERNAME,
