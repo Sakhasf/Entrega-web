@@ -1,4 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
+import { Web } from "src/Web/entities/web.entity";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { Servidor } from "src/servidores/entities/servidor.entity";
 import { ServidoresController } from './servidores.controller';
 import { ServidoresService } from './servidores.service';
 
