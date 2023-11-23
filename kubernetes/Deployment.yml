@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: back-end-Deployment
+  labels:
+    app: back-end
+spec:
+  replicas: 1
+  selector:
+    matchlabels:
+      app: back-end
+  template:
+    metadata:
+      labels:
+        app: back-end
+    spec:
+      containers:
+        - name: node
+          image: sakhasf/back-end:kubernetes
+          env:
+          - name: DB_HOST
+            value: motty.db.elephantsql.com
+          - name: DB_PORT
+            value: 5432
+          - name: DB_USERNAME
+            value: gghtkbrg 
+          - name: DB_PASSWORD
+            value: sAzVrUadD04CmSmLLoveSeLKWTXoUj4p
+          - name: DB_NAME
+            value: gghtkbrg 
+          imagePullPolicy: "Always"
+          ports:
+          - containerPort: 3000
